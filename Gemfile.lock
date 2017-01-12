@@ -24,6 +24,8 @@ GEM
     rack (1.6.5)
     rack-protection (1.5.3)
       rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
     rake (12.0.0)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
@@ -59,6 +61,7 @@ DEPENDENCIES
   bcrypt
   haml
   pg
+  rack-test
   rake
   rspec
   sinatra

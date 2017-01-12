@@ -5,7 +5,6 @@ gem 'haml'
 gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'rake'
-gem 'rspec'
 gem 'bcrypt'
 
  
@@ -15,4 +14,9 @@ end
  
 group :production do
   gem 'pg' # this gem is required to use postgres on Heroku
+end
+
+group :test do
+  gem "rspec"
+  gem "rack-test"
 end
