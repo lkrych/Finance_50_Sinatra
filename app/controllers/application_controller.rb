@@ -13,10 +13,11 @@ get '/' do
 end
 
 get '/registrations/signup' do 
-    
+    haml :'registrations/signup'
 end
 
 post '/registrations' do 
+    puts params
 end
 
 get '/sessions/login' do 
