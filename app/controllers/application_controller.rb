@@ -21,12 +21,11 @@ end
 
 post '/registrations' do
     @user = User.new(name: params[:name], email: params[:email], password: params[:password])
-    @user.save
-    if user.save
+    if @user.save
         flash[:notice] = "Thanks for signing up #{@user.name}."
         redirect "sessions/login"
     else
-        flash[:notice] = "I'm sorry, but your sign up did not work. Please try again."
+        flash[:notice] = "I'm sorry, but your sign up did not work. This is because someone has already used your e-mail address."
         redirect "/registrations/signup"
     end
     
@@ -38,8 +37,8 @@ end
 
 post '/sessions' do
     @user = User.find_by(email: params["email"])
-    if user && user.authenticate(params[:password])
-            session[:user_id] = user.id
+    if @user && @user.authenticate(params[:password])
+            session[:user_id] = @user.id
             redirect "/users/home"
     else
             flash[:notice] = "I'm sorry, but your sign up did not work. Please try again."
@@ -53,7 +52,7 @@ get '/sessions/logout' do
 end
 
 get '/users/home' do
-    @user = User.find_by_id(session[:id])
+    @user = User.find_by_id(session[:user_id])
     haml :'users/home'
 end
     

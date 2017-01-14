@@ -116,3 +116,6 @@ end
 
 # For RSpec 2.x and 3.x
 RSpec.configure { |c| c.include RSpecMixin }
+
+FactoryGirl.definition_file_paths = %w{./factories ./test/factories ./spec/factories}
+FactoryGirl.find_definitions
