@@ -1,8 +1,7 @@
 %div
   %a{:href => "/"}
     %img{:alt => "C$50 Finance", :src => "/logo.png"}/
-%p
-  Enter your information to log in to C$50 Finance
+%br
   
 %form.form-inline{:action => '/sessions', :method => "post"}
   .form-group
@@ -18,7 +17,7 @@
       %span.glyphicon.glyphicon-log-in{"aria-hidden" => "true"}
       Log In
 
-
+%br
 %div
   or 
   %a{:href => "/registrations/signup"} register 

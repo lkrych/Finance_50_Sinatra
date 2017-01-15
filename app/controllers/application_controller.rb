@@ -4,14 +4,13 @@ require 'sinatra/flash'
 
 require_relative '../../config/environments' #database configuration
 require_relative '../models/user'
-#require 'pry'
 
 enable :sessions #allows use of flash
 set :views, '/home/ubuntu/workspace/pset7/finance_sinatra/app/views'
 set :public_folder, '/home/ubuntu/workspace/pset7/finance_sinatra/app/public'
 
 get '/' do
-    haml :'sessions/login'
+    redirect 'sessions/login'
 end
 
 get '/registrations/signup' do 
@@ -52,7 +51,11 @@ get '/sessions/logout' do
 end
 
 get '/users/home' do
-    @user = User.find_by_id(session[:user_id])
-    haml :'users/home'
+    if session[:user_id].nil?
+        redirect '/'
+    else
+        @user = User.find_by_id(session[:user_id])
+        haml :'users/home'
+    end
 end
     

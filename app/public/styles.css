@@ -11,6 +11,12 @@
 }
 
 /* colors for navbar */
+.navbar-default .navbar-brand span
+{
+    letter-spacing: 0;
+    margin: 0;
+}
+
 .navbar-default .navbar-brand .blue
 {
     color: #537fbe;
