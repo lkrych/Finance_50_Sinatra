@@ -7,15 +7,13 @@
     %meta{:content => "initial-scale=1, width=device-width", :name => "viewport"}/
     / documentation at http://getbootstrap.com/, alternative themes at https://www.bootstrapcdn.com/bootswatch/
     %link{:href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", :rel => "stylesheet"}/
-    %link{:href => url('/style.css'), :rel => "stylesheet"}/
+    %link{:href => url('/styles.css'), :rel => "stylesheet"}/
     %script{:src => "https://code.jquery.com/jquery-3.1.1.min.js"}
     %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"}
+    
   %body
-    .container
-      .page-header
-      %div
-        %a{:href => "/"}
-          %img{:alt => "C$50 Finance", :src => "/logo.png"}/
-      %div
-      = styled_flash
-      = yield
+  .container
+    .page-header
+    %div
+    = styled_flash
+    = yield

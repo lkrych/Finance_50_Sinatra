@@ -11,7 +11,7 @@ set :views, '/home/ubuntu/workspace/pset7/finance_sinatra/app/views'
 set :public_folder, '/home/ubuntu/workspace/pset7/finance_sinatra/app/public'
 
 get '/' do
-    haml :home
+    haml :'sessions/login'
 end
 
 get '/registrations/signup' do 
