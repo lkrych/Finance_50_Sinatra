@@ -9,6 +9,7 @@ gem 'bcrypt'
 gem 'pry'
 gem 'sinatra-flash'
 
+
  
 group :development, :test do
   gem 'sqlite3'
@@ -22,4 +23,5 @@ group :test do
   gem "rspec"
   gem "rack-test"
   gem "factory_girl"
+  
 end

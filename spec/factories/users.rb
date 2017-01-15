@@ -6,6 +6,7 @@ FactoryGirl.define do
     factory :user do
         name "John"
         email  "John@valid.com"
+        password "foobar"
         password_digest  User.digest('foobar')
     end
 end

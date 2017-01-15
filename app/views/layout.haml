@@ -13,6 +13,9 @@
   %body
     .container
       .page-header
-      %h1 C$50 Finance
+      %div
+        %a{:href => "/"}
+          %img{:alt => "C$50 Finance", :src => "/logo.png"}/
+      %div
       = styled_flash
       = yield
