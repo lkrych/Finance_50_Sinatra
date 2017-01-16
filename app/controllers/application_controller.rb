@@ -69,7 +69,7 @@ post '/quote' do
     stock = lookup(params[:symbol])
     puts "the stock is #{stock}"
     @symbol = stock[:symbol]
-    @price = stock[:ask].to_f
+    @price = usd(stock[:ask].to_f)
     @name = stock[:name]
     haml :'stocks/quoted'
 end

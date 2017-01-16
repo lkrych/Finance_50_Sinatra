@@ -1,5 +1,5 @@
-.container
-{
+
+.container{
     /* center contents */
     margin-left: auto;
     margin-right: auto;
@@ -11,31 +11,28 @@
 }
 
 /* colors for navbar */
-.navbar-default .navbar-brand span
-{
+.navbar-default .navbar-brand span{
     letter-spacing: 0;
     margin: 0;
 }
 
-.navbar-default .navbar-brand .blue
-{
+.navbar-default .navbar-brand .blue{
     color: #537fbe;
 }
-.navbar-default .navbar-brand .red
-{
+
+.navbar-default .navbar-brand .red{
     color: #ea433b;
 }
-.navbar-default .navbar-brand .yellow
-{
+
+.navbar-default .navbar-brand .yellow{
     color: #f5b82e;
 }
-.navbar-default .navbar-brand .green
-{
+
+.navbar-default .navbar-brand .green{
     color: #2e944b;
 }
 
-main .form-control
-{
+main .form-control{
     /* center form controls */
     display: inline-block;
 
@@ -43,14 +40,21 @@ main .form-control
     width: auto;
 }
 
-main img
-{
+main img{
     /* constrain images on small screens */
     max-width: 100%;
 }
 
-main td
-{
+main td{
     /* left-align tables' cells */
     text-align: left;
+}
+
+#bottom
+{
+    /* shrink bottom's font size */
+    font-size: smaller;
+
+    /* surround with whitespace */
+    margin: 20px;
 }
