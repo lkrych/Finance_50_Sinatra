@@ -1,0 +1,11 @@
+%form.form-inline{:action => '/quote', :method => "post"}
+  .form-group
+    
+    %label.sr-only{:for => "symbol"} Symbol
+    %input.form-control{:name => "symbol", :placeholder => "Symbol", :type => "text"}
+    %br
+    
+    %br
+    %button.btn.btn-default{:type => "submit"}
+      %span.glyphicon.glyphicon-log-in{"aria-hidden" => "true"}
+      Get Quote

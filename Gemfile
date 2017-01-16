@@ -8,6 +8,7 @@ gem 'rake'
 gem 'bcrypt'
 gem 'pry'
 gem 'sinatra-flash'
+gem 'yahoo-finance'
 
 
  
@@ -23,5 +24,4 @@ group :test do
   gem "rspec"
   gem "rack-test"
   gem "factory_girl"
-  
 end

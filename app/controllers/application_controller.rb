@@ -1,9 +1,11 @@
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'sinatra/flash'
+require 'pry'
 
 require_relative '../../config/environments' #database configuration
 require_relative '../models/user'
+require_relative '../helpers/helpers'
 
 enable :sessions #allows use of flash
 set :views, '/home/ubuntu/workspace/pset7/finance_sinatra/app/views'
@@ -58,4 +60,16 @@ get '/users/home' do
         haml :'users/home'
     end
 end
-    
+
+get '/quote' do
+    haml :'stocks/quote'
+end
+
+post '/quote' do
+    stock = lookup(params[:symbol])
+    puts "the stock is #{stock}"
+    @symbol = stock[:symbol]
+    @price = stock[:ask].to_f
+    @name = stock[:name]
+    haml :'stocks/quoted'
+end
