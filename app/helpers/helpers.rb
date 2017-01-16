@@ -1,4 +1,6 @@
 require 'yahoo-finance'
+require_relative '../models/user'
+require_relative '../models/stock'
 helpers do
     def current_user(session_hash)
         return User.find_by_id(session_hash[:user_id])
@@ -39,5 +41,20 @@ helpers do
         #"""Formats value as USD."""
         fmt = "%05.2f" % value
         return "$" + fmt
+    end
+    
+    def update_prices(arr_of_stocks)
+        arr_of_stocks.each do |stock|
+            current_stock = lookup(stock[:symbol])
+            stock.update(price: current_stock[:ask])
+        end
+        t = Time.now
+        date = t.strftime("%m/%d/%Y") 
+        time = t.strftime("%I:%M%p")
+        flash[:notice] = "The stocks were updated on #{date} at #{time}."
+    end
+    
+    def current_stocks(user)
+        return Stock.where(user: user.id)
     end
 end

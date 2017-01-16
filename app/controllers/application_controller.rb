@@ -5,6 +5,7 @@ require 'pry'
 
 require_relative '../../config/environments' #database configuration
 require_relative '../models/user'
+require_relative '../models/stock'
 require_relative '../helpers/helpers'
 
 enable :sessions #allows use of flash
@@ -54,9 +55,14 @@ end
 
 get '/users/home' do
     if session[:user_id].nil?
-        redirect '/'
+        redirect 'sessions/login'
     else
         @user = User.find_by_id(session[:user_id])
+        @user_stock = current_stocks(@user)
+        if !@user_stock.nil? 
+            update_prices(@user_stock)
+            @user_stock.reload
+        end
         haml :'users/home'
     end
 end
@@ -67,9 +73,37 @@ end
 
 post '/quote' do
     stock = lookup(params[:symbol])
-    puts "the stock is #{stock}"
     @symbol = stock[:symbol]
     @price = usd(stock[:ask].to_f)
     @name = stock[:name]
     haml :'stocks/quoted'
+end
+
+get '/buy' do
+    haml :'stocks/buy'
+end
+
+post '/buy' do
+    @user = User.find_by_id(session[:user_id])
+    stock = lookup(params[:symbol])
+    @symbol = stock[:symbol]
+    @price = stock[:ask].to_f 
+    @name = stock[:name]
+    @shares = params[:shares].to_i
+    @total = (@price * @shares).to_f
+    if @user.bank > @total
+        # if user has enough money and doesn't own the stock
+        current_stock = Stock.where("user = #{@user.id} AND symbol = #{@symbol}")
+        if !current_stock.exists?
+            Stock.create(symbol: @symbol, name: @name, shares: @shares, price: @price, user: @user.id)
+        else #if user has enough money but owns the stock
+            owned_stock = Stock.where("user = #{@user.id} AND name = #{@name}")
+            @new_shares = owned_stock.shares + @shares
+            owned_stock.update(shares: @new_shares)
+        end
+    @user.bank -= @total
+    else
+        flash[:notice] = "I'm sorry, but you do not have enough money in the bank to buy that stock."
+    end
+    haml :'users/home'
 end

@@ -1,3 +1,28 @@
 %p"Welcome, #{@user.name}!"
 %br
 
+
+%table.table.table-striped
+    %thead
+        %tr
+            %th Symbol
+            %th Name
+            %th Shares
+            %th Price
+            %th Total
+    %tbody
+    - if !@user_stock.nil?
+        - @user_stock.each do |stock| 
+            %tr
+                %td= stock.symbol
+                %td= stock.name
+                %td= stock.shares
+                %td= stock.price
+                %td= stock.shares * stock.price
+    - if true
+        %tr
+            %td Bank
+            %td
+            %td
+            %td
+            %td= @user.bank

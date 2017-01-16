@@ -45,7 +45,7 @@ main img{
     max-width: 100%;
 }
 
-main td{
+td{
     /* left-align tables' cells */
     text-align: left;
 }
@@ -58,3 +58,4 @@ main td{
     /* surround with whitespace */
     margin: 20px;
 }
+
