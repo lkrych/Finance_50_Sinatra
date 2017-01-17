@@ -1,0 +1,18 @@
+%table.table.table-striped
+    %thead
+        %tr
+            %th Transaction
+            %th Date/Time
+            %th Symbol
+            %th Shares
+            %th Price
+    %tbody
+    - if !@user_transactions.nil?
+        - @user_transactions.each do |transaction| 
+            %tr
+                %td= transaction.transaction_type
+                %td= transaction.date
+                %td= transaction.symbol
+                %td= transaction.shares
+                %td= usd(transaction.price)
+    

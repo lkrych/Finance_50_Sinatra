@@ -6,6 +6,7 @@ require 'pry'
 require_relative '../../config/environments' #database configuration
 require_relative '../models/user'
 require_relative '../models/stock'
+require_relative '../models/transaction'
 require_relative '../helpers/helpers'
 
 enable :sessions #allows use of flash
@@ -97,8 +98,10 @@ post '/buy' do
             owned_stock = Stock.find_by user: @user.id, symbol: @symbol
             @new_shares = owned_stock.shares + @shares
             owned_stock.update(shares: @new_shares)
+            Transaction.create(transaction_type: 'BUY', date: Time.now.strftime("%m/%d/%Y, %I:%M%p"), symbol: @symbol, shares: @shares, price: @price, user: @user.id)
         else #create new stock
             Stock.create(symbol: @symbol, name: @name, shares: @shares, price: @price, user: @user.id)
+            Transaction.create(transaction_type: 'BUY', date: Time.now.strftime("%m/%d/%Y, %I:%M%p"), symbol: @symbol, shares: @shares, price: @price, user: @user.id)
         end
         #update users bank
         bank_update = @user.bank - @total
@@ -117,15 +120,46 @@ end
 post '/sell' do
     @user = current_user
     @symbol = params[:symbol]
+    @shares = params[:shares]
     if Stock.exists?(:user => @user.id, :symbol => @symbol)
             owned_stock = Stock.find_by user: @user.id, symbol: @symbol
-            bank_update = @user.bank + (owned_stock.shares * owned_stock.price)
+            new_shares = owned_stock.shares - @shares.to_i
+            
+            if new_shares < 1
+                flash.now[:notice] = "I'm sorry but you don't have that many shares"
+                redirect 'stocks/sell'
+            end
+            
+            bank_update = @user.bank + (new_shares * owned_stock.price)
             @user.update_attribute(:bank, bank_update)
-            owned_stock.delete
+            owned_stock.update_attribute(:shares, new_shares)
+            
+            if new_shares == 0
+                owned_stock.delete
+            end
+            
+            Transaction.create(transaction_type: 'SELL', date: Time.now.strftime("%m/%d/%Y, %I:%M%p"), symbol: @symbol, shares: @shares , price: owned_stock.price, user: @user.id)
+            
     else #create new stock
             flash.now[:notice] = "I'm sorry, but you don't own that stock"
     end
     
+    redirect 'users/home'
+end
+
+get '/history' do
+    @user = current_user
+    @user_transactions = current_transactions(@user)
+    haml :'stocks/history'
+end
+
+get '/reset' do
+    @user = current_user
+    @user_stock = current_stocks(@user)
+    @user_stock.delete_all
+    @user_transactions = current_transactions(@user)
+    @user_transactions.delete_all
+    @user.update_attribute(:bank, 10000)
     redirect 'users/home'
 end
 

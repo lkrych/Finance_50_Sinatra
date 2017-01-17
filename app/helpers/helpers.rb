@@ -57,4 +57,8 @@ helpers do
     def current_stocks(user)
         return Stock.where(user: user.id)
     end
+    
+    def current_transactions(user)
+        return Transaction.where(user: user.id)
+    end
 end
