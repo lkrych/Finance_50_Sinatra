@@ -18,11 +18,11 @@
                 %td= stock.name
                 %td= stock.shares
                 %td= stock.price
-                %td= stock.shares * stock.price
+                %td= usd(stock.shares * stock.price)
     - if true
         %tr
             %td Bank
             %td
             %td
             %td
-            %td= @user.bank
+            %td= @bank

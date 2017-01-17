@@ -1,0 +1,15 @@
+%form.form-inline{:action => '/sell', :method => "post"}
+  .form-group
+    
+    %label.sr-only{:for => "symbol"} Symbol
+    %input.form-control{:name => "symbol", :placeholder => "Symbol", :type => "text"}
+    %br
+    
+    %br
+    %label.sr-only{:for => "shares"} Shares
+    %input.form-control{:name => "shares", :placeholder => "Shares", :type => "integer"}
+    %br
+    
+    %br
+    %button.btn.btn-default{:type => "submit"}
+      Sell

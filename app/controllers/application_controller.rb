@@ -57,12 +57,13 @@ get '/users/home' do
     if session[:user_id].nil?
         redirect 'sessions/login'
     else
-        @user = User.find_by_id(session[:user_id])
+        @user = current_user
         @user_stock = current_stocks(@user)
         if !@user_stock.nil? 
             update_prices(@user_stock)
             @user_stock.reload
         end
+        @bank = usd(@user.bank)
         haml :'users/home'
     end
 end
@@ -84,7 +85,7 @@ get '/buy' do
 end
 
 post '/buy' do
-    @user = User.find_by_id(session[:user_id])
+    @user = current_user
     stock = lookup(params[:symbol])
     @symbol = stock[:symbol]
     @price = stock[:ask].to_f 
@@ -92,18 +93,31 @@ post '/buy' do
     @shares = params[:shares].to_i
     @total = (@price * @shares).to_f
     if @user.bank > @total
-        # if user has enough money and doesn't own the stock
-        current_stock = Stock.where("user = #{@user.id} AND symbol = #{@symbol}")
-        if !current_stock.exists?
-            Stock.create(symbol: @symbol, name: @name, shares: @shares, price: @price, user: @user.id)
-        else #if user has enough money but owns the stock
-            owned_stock = Stock.where("user = #{@user.id} AND name = #{@name}")
+        #update already owned stock
+        if Stock.exists?(:user => @user.id, :symbol => @symbol)
+            owned_stock = Stock.find_by user: @user.id, symbol: @symbol
             @new_shares = owned_stock.shares + @shares
             owned_stock.update(shares: @new_shares)
+        else #create new stock
+            Stock.create(symbol: @symbol, name: @name, shares: @shares, price: @price, user: @user.id)
         end
-    @user.bank -= @total
+        #update users bank
+        bank = @user.bank - @total
+        @user.update_attribute(:bank, bank)
+        @user.save(:validate => false) #won't update unless you change validations
+        
     else
         flash[:notice] = "I'm sorry, but you do not have enough money in the bank to buy that stock."
     end
-    haml :'users/home'
+    
+    redirect 'users/home'
+end
+
+get '/sell' do
+    haml :'stocks/sell'
+end
+
+post '/sell' do
+    Stock.delete_all()
+    redirect 'users/home'
 end

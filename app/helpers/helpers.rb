@@ -2,12 +2,12 @@ require 'yahoo-finance'
 require_relative '../models/user'
 require_relative '../models/stock'
 helpers do
-    def current_user(session_hash)
-        return User.find_by_id(session_hash[:user_id])
+    def current_user()
+        return User.find_by_id(session[:user_id])
     end
     
     def is_logged_in?(session_hash)
-        return current_user.id == session_hash[:user_id]
+        return current_user.id == session[:user_id]
     end
     
     def lookup(symbol)
@@ -48,10 +48,10 @@ helpers do
             current_stock = lookup(stock[:symbol])
             stock.update(price: current_stock[:ask])
         end
-        t = Time.now
-        date = t.strftime("%m/%d/%Y") 
-        time = t.strftime("%I:%M%p")
-        flash[:notice] = "The stocks were updated on #{date} at #{time}."
+        # t = Time.now #flash to show when stocks were updated
+        # date = t.strftime("%m/%d/%Y") 
+        # time = t.strftime("%I:%M%p")
+        # flash[:notice] = "The stocks were updated on #{date} at #{time}."
     end
     
     def current_stocks(user)
