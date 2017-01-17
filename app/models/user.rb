@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
     after_initialize :init
 
     def init
-      self.bank = 10000          
+      self.bank ||= 10000 if self.new_record?         
     end
      # Returns the hash digest of the given string.
     def User.digest(string)

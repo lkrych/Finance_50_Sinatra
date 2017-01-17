@@ -61,7 +61,6 @@ get '/users/home' do
         @user_stock = current_stocks(@user)
         if !@user_stock.nil? 
             update_prices(@user_stock)
-            @user_stock.reload
         end
         @bank = usd(@user.bank)
         haml :'users/home'
@@ -91,7 +90,7 @@ post '/buy' do
     @price = stock[:ask].to_f 
     @name = stock[:name]
     @shares = params[:shares].to_i
-    @total = (@price * @shares).to_f
+    @total = (@price * @shares).to_f.round(2)
     if @user.bank > @total
         #update already owned stock
         if Stock.exists?(:user => @user.id, :symbol => @symbol)
@@ -102,10 +101,8 @@ post '/buy' do
             Stock.create(symbol: @symbol, name: @name, shares: @shares, price: @price, user: @user.id)
         end
         #update users bank
-        bank = @user.bank - @total
-        @user.update_attribute(:bank, bank)
-        @user.save(:validate => false) #won't update unless you change validations
-        
+        bank_update = @user.bank - @total
+        @user.update_attribute(:bank, bank_update)
     else
         flash[:notice] = "I'm sorry, but you do not have enough money in the bank to buy that stock."
     end
@@ -118,6 +115,14 @@ get '/sell' do
 end
 
 post '/sell' do
+    @user = current_user
     Stock.delete_all()
+    @user.update_attribute(:bank, 10000)
     redirect 'users/home'
+end
+
+
+#clear threads
+after do
+  ActiveRecord::Base.clear_active_connections!
 end
