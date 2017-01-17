@@ -116,8 +116,16 @@ end
 
 post '/sell' do
     @user = current_user
-    Stock.delete_all()
-    @user.update_attribute(:bank, 10000)
+    @symbol = params[:symbol]
+    if Stock.exists?(:user => @user.id, :symbol => @symbol)
+            owned_stock = Stock.find_by user: @user.id, symbol: @symbol
+            bank_update = @user.bank + (owned_stock.shares * owned_stock.price)
+            @user.update_attribute(:bank, bank_update)
+            owned_stock.delete
+    else #create new stock
+            flash.now[:notice] = "I'm sorry, but you don't own that stock"
+    end
+    
     redirect 'users/home'
 end
 
