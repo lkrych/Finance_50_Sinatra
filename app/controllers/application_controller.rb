@@ -77,7 +77,11 @@ post '/quote' do
     @symbol = stock[:symbol]
     @price = usd(stock[:ask].to_f)
     @name = stock[:name]
-    haml :'stocks/quoted'
+    if request.xhr?
+        haml :'stocks/quoted', :layout => false
+    else
+        haml :'stocks/quoted'
+    end
 end
 
 get '/buy' do

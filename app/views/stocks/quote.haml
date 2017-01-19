@@ -1,4 +1,4 @@
-%form.form-inline{:action => '/quote', :method => "post"}
+%form.form-inline{:action => "/quote", :method => "post", :id => "quote"}
   .form-group
     
     %label.sr-only{:for => "symbol"} Symbol
@@ -9,3 +9,5 @@
     %button.btn.btn-default{:type => "submit"}
       %span.glyphicon.glyphicon-search{"aria-hidden" => "true"}
       Get Quote
+%br      
+#results
