@@ -9,6 +9,7 @@ gem 'bcrypt'
 gem 'pry'
 gem 'sinatra-flash'
 gem 'yahoo-finance'
+gem 'json', '~>1.8'
 
 
  

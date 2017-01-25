@@ -75,6 +75,7 @@ DEPENDENCIES
   bcrypt
   factory_girl
   haml
+  json (~> 1.8)
   pg
   pry
   rack-test
