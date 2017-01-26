@@ -11,7 +11,7 @@ require_relative '../helpers/helpers'
 
 enable :sessions #allows use of flash
 set :views, '/app/app/views'
-# set :public_folder, '../public'
+set :public_folder, '/app/public'
 
 get '/' do
     haml :'sessions/login'
