@@ -10,8 +10,8 @@ require_relative '../models/transaction'
 require_relative '../helpers/helpers'
 
 enable :sessions #allows use of flash
-set :views, '/app/views'
-set :public_folder, '/app/public'
+set :views, '/app/app/views'
+set :public_folder, 'app/app/public'
 
 get '/' do
     haml :'sessions/login'
