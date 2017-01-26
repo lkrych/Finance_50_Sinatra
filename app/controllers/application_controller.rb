@@ -10,8 +10,8 @@ require_relative '../models/transaction'
 require_relative '../helpers/helpers'
 
 enable :sessions #allows use of flash
-set :views, '/home/ubuntu/workspace/pset7/finance_sinatra/app/views'
-set :public_folder, '/home/ubuntu/workspace/pset7/finance_sinatra/app/public'
+set :views, '/app/views'
+set :public_folder, '/app/public'
 
 get '/' do
     haml :'sessions/login'
